@@ -470,8 +470,9 @@ class _CodeWidgetState extends State<CodeWidget> {
     return IgnorePointer(
       ignoring: isSelectionActive,
       child: Semantics(
-        button: true,
-        identifier: 'auth_next_code_button',
+        // Merge into the card while selecting, as a tap here selects it then
+        button: !isSelectionActive,
+        identifier: isSelectionActive ? null : 'auth_next_code_button',
         child: AnimatedContainer(
           duration: Motion.standard,
           curve: Curves.easeInOut,

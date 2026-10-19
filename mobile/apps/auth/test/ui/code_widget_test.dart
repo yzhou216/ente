@@ -80,7 +80,7 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('next code button lets taps select the card in selection mode', (
+  testWidgets('next code button acts as part of the card in selection mode', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
@@ -88,7 +88,13 @@ void main() {
     CodeDisplayStore.instance.toggleSelection(code.selectionKey);
     await tester.pumpWidget(_app(code));
 
-    await tester.tap(_nextCodeButton, warnIfMissed: false);
+    final nextCode = find.text('next');
+    expect(
+      tester.getSemantics(nextCode),
+      isSemantics(isButton: false, hasTapAction: true),
+    );
+
+    await tester.tap(nextCode, warnIfMissed: false);
     await tester.pump();
 
     expect(copied, isEmpty);
